@@ -75,10 +75,25 @@
 
 .paginationBar {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
   padding: 20px;
+}
+
+.paginationButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.paginationButton {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+  background-color: #171821;
+  color: white;
+  cursor: pointer;
 }
 
 /* for mobile view */
