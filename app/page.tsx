@@ -7,7 +7,6 @@ import Link from 'next/link';
 export default async function Home() {
 
   const blogs = await getAllBlogSnippets();
-
   return (
     <div className={styles.homepage}>
       <div className={styles.header}>
@@ -21,7 +20,7 @@ export default async function Home() {
             <img src={blog.image} alt={blog.title} className={styles.blogImage} />
             <p className={styles.blogSummary}>{blog.description}</p>
             <Link href={`/blogs/${blog.slug}`} className={styles.readMore}>
-              Read more &rarr;
+              Read Article
             </Link>
           </div>
         ))}
