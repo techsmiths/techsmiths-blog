@@ -16,6 +16,15 @@ const customPortableTextComponents = {
             const imageProps: any = useNextSanityImage(createClient(clientConfig), value.asset);
             return (<img src={imageProps.src} alt={value.alt} />);
         },
+
+        code : ({value } : any) => {
+            return (
+                <pre>
+                    <code>{value.code}</code>
+                </pre>
+            )
+        }
+
     },
 };
 
@@ -26,11 +35,10 @@ export default async function Blog({ params }: Props) {
     let slug = params.blog;
     let blog = await getBlogBySlug(slug);
 
-    
+
     if (!blog) {
         return <div>404</div>
     }
-
 
     return (
         <div>

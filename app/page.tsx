@@ -10,7 +10,10 @@ export default async function Home() {
 
   return (
     <div className={styles.homepage}>
-      <h1 className={styles.heading}>My Blog Posts</h1>
+      <div className={styles.header}>
+        <img src="/favicon.ico" alt="Techsmiths logo" className={styles.logo} />
+        <h1 className={styles.heading}>Techsmiths@blog</h1>
+      </div>
       <div className={styles.blogGrid}>
         {blogs.map((blog) => (
           <div key={blog._id} className={styles.blogCard}>
