@@ -9,6 +9,16 @@
   flex-direction: column;
 }
 
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #171821;
+  font-family: 'Quicksand', sans-serif; 
+  color: white;
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -25,14 +35,13 @@
 .blogGrid {
   margin: auto;
   width: 80%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 20px;
+  display: flex;
   flex: 1;
-  padding: 20px;
+  flex-wrap: wrap;
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
+
 
 }
 
@@ -40,10 +49,19 @@
   display: none;
 }
 
+.blogRow {
+  width: 100%;
+  display: flex;
+  height: max-content;
+  align-items: center;
+}
+
 .blogCard {
+  width: calc(33.33% - 20px);
   display: flex;
   flex-direction: column;
   padding: 20px;
+  margin: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: 1px solid #eaeaea;
@@ -59,8 +77,8 @@
 
 .blogImage {
   width: 100%;
-  min-height: 300px;
-  object-fit: cover;
+  height: 200px;
+  object-fit: contain; /* might be changed to cover later */
   border-radius: 10px;
   margin-bottom: 10px;
 }
@@ -105,7 +123,16 @@
 
 @media (max-width: 768px) {
   .blogGrid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    flex-wrap: nowrap;
     width: 95%;
+  }
+  .blogRow {
+    flex-direction: column;
+  }
+  .blogCard {
+    margin: 0;
+    margin-bottom: 10px;
+    width: 100%;
   }
 }

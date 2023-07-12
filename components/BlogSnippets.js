@@ -9,7 +9,7 @@ const BlogSnippets = ({ blogs }) => {
 
     // set up pagination
     const [currentPage, setCurrentPage] = useState(1);
-    const blogsPerPage = 1;
+    const blogsPerPage = 3;
 
     blogs = blogs.sort((a, b) => {
         return new Date(b._createdAt).getTime() - new Date(a._createdAt).getTime();
@@ -56,7 +56,7 @@ const BlogSnippets = ({ blogs }) => {
             else if (currentPage >= totalPages - 2) {
                 startPage = totalPages - 4;
                 endPage = totalPages;
-            } else 
+            } else
             // otherwise, display the 2 pages before and after the current page
             {
                 startPage = currentPage - 2;
@@ -80,7 +80,60 @@ const BlogSnippets = ({ blogs }) => {
         return buttons;
     };
 
+    const renderBlogs = () => {
 
+        // every 3 currentBlogs, create a new row
+        // finally add the rows to the blogGrid
+
+        let rows = [];
+
+        for (let i = 0; i < currentBlogs.length; i += 3) {
+
+            rows.push(
+                <div key={`BlogRow${i}`} className={styles.blogRow}>
+                    <div className={styles.blogCard}>
+                        <h3 className={styles.blogTitle}>{currentBlogs[i].title}</h3>
+                        <img src={currentBlogs[i].image ? currentBlogs[i].image : "/favicon.ico"} alt={currentBlogs[i].title} className={styles.blogImage} />
+                        <p className={styles.blogSummary}>{currentBlogs[i].description}</p>
+                        <p className={styles.created}>
+                            Published At : {new Date(currentBlogs[i]._createdAt).toLocaleDateString()}
+                        </p>
+                        <Link href={`/blogs/${currentBlogs[i].slug}`} className={styles.readMore}>
+                            Read Article
+                        </Link>
+                    </div>
+                    {currentBlogs[i + 1] && (
+                        <div className={styles.blogCard}>
+                            <h3 className={styles.blogTitle}>{currentBlogs[i + 1].title}</h3>
+                            <img src={currentBlogs[i + 1].image ? currentBlogs[i + 1].image : "/favicon.ico"} alt={currentBlogs[i + 1].title} className={styles.blogImage} />
+                            <p className={styles.blogSummary}>{currentBlogs[i + 1].description}</p>
+                            <p className={styles.created}>
+                                Published At : {new Date(currentBlogs[i + 1]._createdAt).toLocaleDateString()}
+                            </p>
+                            <Link href={`/blogs/${currentBlogs[i + 1].slug}`} className={styles.readMore}>
+                                Read Article
+                            </Link>
+                        </div>
+                    )}
+                    {currentBlogs[i + 2] && (
+                        <div className={styles.blogCard}>
+                            <h3 className={styles.blogTitle}>{currentBlogs[i + 2].title}</h3>
+                            <img src={currentBlogs[i + 2].image ? currentBlogs[i + 2].image : "/favicon.ico"} alt={currentBlogs[i + 2].title} className={styles.blogImage} />
+                            <p className={styles.blogSummary}>{currentBlogs[i + 2].description}</p>
+                            <p className={styles.created}>
+                                Published At : {new Date(currentBlogs[i + 2]._createdAt).toLocaleDateString()}
+                            </p>
+                            <Link href={`/blogs/${currentBlogs[i + 2].slug}`} className={styles.readMore}>
+                                Read Article
+                            </Link>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        return rows;
+    }
 
 
 
@@ -92,10 +145,11 @@ const BlogSnippets = ({ blogs }) => {
                 <h1 className={styles.heading}>Techsmiths@blog</h1>
             </div>
             <div className={styles.blogGrid}>
-                {currentBlogs.map((blog) => (
+                {renderBlogs()}
+                {/* {currentBlogs.map((blog) => (
                     <div key={blog._id} className={styles.blogCard}>
                         <h3 className={styles.blogTitle}>{blog.title}</h3>
-                        <img src={blog.image} alt={blog.title} className={styles.blogImage} />
+                        <img src={blog.image ? blog.image : "/favicon.ico"} alt={blog.title} className={styles.blogImage} />
                         <p className={styles.blogSummary}>{blog.description}</p>
                         <p className={styles.created}>
                             Published At : {new Date(blog._createdAt).toLocaleDateString()}
@@ -104,7 +158,7 @@ const BlogSnippets = ({ blogs }) => {
                             Read Article
                         </Link>
                     </div>
-                ))}
+                ))} */}
             </div>
             <div className={styles.paginationBar}>
                 <p className={styles.paginationText}>Page {currentPage} of {Math.ceil(blogs.length / blogsPerPage)}</p>
@@ -124,4 +178,4 @@ const BlogSnippets = ({ blogs }) => {
     )
 }
 
-export default BlogSnippets
+export default BlogSnippets;
