@@ -96,6 +96,11 @@
   cursor: pointer;
 }
 
+.activeButton {
+  background-color: #0077ff;
+  color: white;
+}
+
 /* for mobile view */
 
 @media (max-width: 768px) {

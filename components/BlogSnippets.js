@@ -11,6 +11,11 @@ const BlogSnippets = ({ blogs }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const blogsPerPage = 1;
 
+    blogs = blogs.sort((a, b) => {
+        return new Date(b._createdAt).getTime() - new Date(a._createdAt).getTime();
+    });
+
+
     // get current blogs
     const indexOfLastBlog = currentPage * blogsPerPage;
     const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
@@ -78,6 +83,8 @@ const BlogSnippets = ({ blogs }) => {
 
 
 
+
+
     return (
         <div className={styles.homepage}>
             <div className={styles.header}>
@@ -90,6 +97,9 @@ const BlogSnippets = ({ blogs }) => {
                         <h3 className={styles.blogTitle}>{blog.title}</h3>
                         <img src={blog.image} alt={blog.title} className={styles.blogImage} />
                         <p className={styles.blogSummary}>{blog.description}</p>
+                        <p className={styles.created}>
+                            Published At : {new Date(blog._createdAt).toLocaleDateString()}
+                        </p>
                         <Link href={`/blogs/${blog.slug}`} className={styles.readMore}>
                             Read Article
                         </Link>
