@@ -93,7 +93,7 @@ const BlogSnippets = ({ blogs }) => {
                 <div key={`BlogRow${i}`} className={styles.blogRow}>
                     <div className={styles.blogCard}>
                         <h3 className={styles.blogTitle}>{currentBlogs[i].title}</h3>
-                        <img src={currentBlogs[i].image ? currentBlogs[i].image : "/favicon.ico"} alt={currentBlogs[i].title} className={styles.blogImage} />
+                        <img src={currentBlogs[i].image ? currentBlogs[i].image : "/blogs_default_image.jpg"} alt={currentBlogs[i].title} className={styles.blogImage} />
                         <p className={styles.blogSummary}>{currentBlogs[i].description}</p>
                         <p className={styles.created}>
                             Published At : {new Date(currentBlogs[i]._createdAt).toLocaleDateString()}
@@ -105,7 +105,7 @@ const BlogSnippets = ({ blogs }) => {
                     {currentBlogs[i + 1] && (
                         <div className={styles.blogCard}>
                             <h3 className={styles.blogTitle}>{currentBlogs[i + 1].title}</h3>
-                            <img src={currentBlogs[i + 1].image ? currentBlogs[i + 1].image : "/favicon.ico"} alt={currentBlogs[i + 1].title} className={styles.blogImage} />
+                            <img src={currentBlogs[i + 1].image ? currentBlogs[i + 1].image : "/blogs_default_image.jpg"} alt={currentBlogs[i + 1].title} className={styles.blogImage} />
                             <p className={styles.blogSummary}>{currentBlogs[i + 1].description}</p>
                             <p className={styles.created}>
                                 Published At : {new Date(currentBlogs[i + 1]._createdAt).toLocaleDateString()}
@@ -118,7 +118,7 @@ const BlogSnippets = ({ blogs }) => {
                     {currentBlogs[i + 2] && (
                         <div className={styles.blogCard}>
                             <h3 className={styles.blogTitle}>{currentBlogs[i + 2].title}</h3>
-                            <img src={currentBlogs[i + 2].image ? currentBlogs[i + 2].image : "/favicon.ico"} alt={currentBlogs[i + 2].title} className={styles.blogImage} />
+                            <img src={currentBlogs[i + 2].image ? currentBlogs[i + 2].image : "/blogs_default_image.jpg"} alt={currentBlogs[i + 2].title} className={styles.blogImage} />
                             <p className={styles.blogSummary}>{currentBlogs[i + 2].description}</p>
                             <p className={styles.created}>
                                 Published At : {new Date(currentBlogs[i + 2]._createdAt).toLocaleDateString()}
@@ -146,19 +146,6 @@ const BlogSnippets = ({ blogs }) => {
             </div>
             <div className={styles.blogGrid}>
                 {renderBlogs()}
-                {/* {currentBlogs.map((blog) => (
-                    <div key={blog._id} className={styles.blogCard}>
-                        <h3 className={styles.blogTitle}>{blog.title}</h3>
-                        <img src={blog.image ? blog.image : "/favicon.ico"} alt={blog.title} className={styles.blogImage} />
-                        <p className={styles.blogSummary}>{blog.description}</p>
-                        <p className={styles.created}>
-                            Published At : {new Date(blog._createdAt).toLocaleDateString()}
-                        </p>
-                        <Link href={`/blogs/${blog.slug}`} className={styles.readMore}>
-                            Read Article
-                        </Link>
-                    </div>
-                ))} */}
             </div>
             <div className={styles.paginationBar}>
                 <p className={styles.paginationText}>Page {currentPage} of {Math.ceil(blogs.length / blogsPerPage)}</p>

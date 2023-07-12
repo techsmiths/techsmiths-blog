@@ -1,0 +1,97 @@
+.blogPage {
+  background-color: #171821;
+  height: 100%;
+  width: 100%;
+  color: white;
+  /* font-family: 'Dosis', sans-serif; */
+  font-family: 'Quicksand', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #171821;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+}
+
+.nav {
+  padding: 20px;
+  font-size: 20px;
+}
+
+.nav>a {
+  color: white;
+}
+
+.blog {
+  width: 60%;
+  margin: auto;
+  padding: 30px;
+  flex: 1;
+  overflow-y: scroll;
+
+
+
+  /* remove scroll bar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.blog::-webkit-scrollbar {
+  display: none;
+}
+
+.blog .title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.blog img {
+  object-fit: contain;
+  width: 30%;
+  display: block;
+  margin: auto;
+}
+
+.blog pre {
+  width: 100%;
+  background-color: black;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  overflow-x: scroll;
+
+  /* remove scroll bar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.blog pre::-webkit-scrollbar {
+  display: none;
+}
+
+.blog ul {
+  margin-left: 30px;
+}
+
+.blog p {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+
+/* for mobile view */
+
+@media (max-width: 768px) {
+  .blog {
+    width: 98%;
+    padding: 20px;
+    flex-wrap: wrap;
+  }
+
+}
