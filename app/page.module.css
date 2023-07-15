@@ -213,10 +213,10 @@
   }
 
   .header {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: flex-start;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-top: 10px;
   }
 
 }

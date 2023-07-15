@@ -19,13 +19,30 @@
   color: white;
 }
 
-.nav {
-  padding: 20px;
-  font-size: 20px;
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  gap: 20px;
 }
 
-.nav>a {
-  color: white;
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .blog {
@@ -70,6 +87,7 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
 .blog pre::-webkit-scrollbar {
   display: none;
 }
@@ -92,6 +110,13 @@
     width: 98%;
     padding: 20px;
     flex-wrap: wrap;
+  }
+
+  .header {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 10px;
   }
 
 }
