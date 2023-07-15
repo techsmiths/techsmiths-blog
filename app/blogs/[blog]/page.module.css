@@ -51,6 +51,7 @@
   padding: 30px;
   flex: 1;
   overflow-y: scroll;
+  position: relative;
 
 
 
@@ -102,6 +103,22 @@
   margin-bottom: 10px;
 }
 
+.comments {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 100px;
+  height: calc(100% - 100px);
+  padding: 30px;
+  flex: 1;
+  overflow-y: scroll;
+  background-color: black;
+
+  /* remove scroll bar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 
 /* for mobile view */
 
@@ -117,6 +134,15 @@
     align-items: flex-start;
     gap: 10px;
     margin-top: 10px;
+  }
+
+  .comments {
+    position: fixed;
+    left: 0;
+    top: 140px;
+    height: calc(100% - 140px);
+    padding: 10px;
+
   }
 
 }

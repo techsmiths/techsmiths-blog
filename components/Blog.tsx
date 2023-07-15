@@ -7,6 +7,7 @@ import { useNextSanityImage } from 'next-sanity-image'
 import { clientConfig } from '@/sanity/utils/fetch-functions';
 import styles from '../app/blogs/[blog]/page.module.css'
 import { useRouter } from 'next/navigation';
+import useFirebase from '@/hooks/useFirebase';
 
 const customPortableTextComponents = {
     types: {
@@ -38,6 +39,7 @@ type BlogT = {
 function Blog({ blog }: { blog: BlogT }) {
 
     const router = useRouter();
+    const { user } = useFirebase();
 
     return (
         <div className={styles.blogPage}>
@@ -55,6 +57,34 @@ function Blog({ blog }: { blog: BlogT }) {
                         components={customPortableTextComponents}
                     />
                 </div>
+                {
+                    <div className={styles.reactionBar}>
+                        {!user &&
+                            <p>Sign in to like, comment and share</p>
+                        }
+                        {
+
+                            user ? (
+                                <div className={styles.reactions}>
+                                    <button className={styles.button}>Like</button>
+                                    <button className={styles.button}>Comment</button>
+                                    <button className={styles.button}>Share</button>
+                                </div>
+                            ) : (
+                                <div className={styles.reactions}>
+                                    <button className={styles.button} disabled>Like</button>
+                                    <button className={styles.button}>Comment</button>
+                                    <button className={styles.button}>Share</button>
+                                </div>
+                            )
+                        }
+                    </div>
+                }
+                {
+                    <div className={styles.comments}>
+                        A comment
+                    </div>
+                }
             </div>
         </div>
     )
