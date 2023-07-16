@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Authenticator from "./Authenticator"
 import { PortableText } from "@portabletext/react";
 import { createClient } from 'next-sanity';
@@ -10,10 +10,13 @@ import { useRouter } from 'next/navigation';
 import useFirebase from '@/hooks/useFirebase';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { a11yDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type BlogT = {
     title: string,
     image: string,
+    slug: string,
     content: any
 }
 
@@ -42,10 +45,26 @@ function Blog({ blog }: { blog: BlogT }) {
     const { user } = useFirebase();
     const [liked, setLiked] = useState(false);
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+    const [scrollPercentage, setScrollPercentage] = useState(0);
+    const divRef = useRef(null);
 
 
+
+
+    const handleScroll = () => {
+        if (!divRef.current) return;
+        const { scrollTop, scrollHeight, clientHeight } = divRef.current;
+        const scrollableHeight = scrollHeight - clientHeight;
+        const percentage = (scrollTop / scrollableHeight) * 100;
+        setScrollPercentage(percentage);
+    };
+
+    function notify(message: string) {
+        toast(message);
+    }
     function copyCurrentUrlToClipBord() {
         navigator.clipboard.writeText(window.location.href);
+        notify("the article's url has been copied to your clipboard!");
     }
 
     if (isCommentsOpen) {
@@ -78,8 +97,8 @@ function Blog({ blog }: { blog: BlogT }) {
                 </div>
                 <Authenticator />
             </div>
-            <div className={styles.blog}>
-                <h1 className={styles.title}>{blog.title}</h1>
+            <div className={styles.blog} ref={divRef} onScroll={handleScroll}>
+                <h1 className={styles.title}>{blog.title} </h1>
                 <img src={blog.image} alt={blog.title} />
                 <div>
                     <PortableText value={blog.content}
@@ -87,62 +106,76 @@ function Blog({ blog }: { blog: BlogT }) {
                     />
                 </div>
             </div>
-                {
-                    <div className={styles.reactionBar}>
-                        {
+            {
+                <div className={styles.reactionBar}>
+                    <div className={styles.progressBar} style={{ width: `${scrollPercentage}%`, height: "2px" }}></div>
+                    {
 
-                            // if logged in
-                            user ?
-                                (
-                                    <div className={styles.reactions}>
-                                        <div className={styles.button} onClick={() => setLiked(!liked)}>
-                                            <p>1</p>
-                                            <div>
-                                                <img src={liked ? "/liked.png" : "/unliked.png"} alt="like icon" />
-                                            </div>
-                                        </div>
-                                        <div className={styles.button} onClick={() => setIsCommentsOpen(true)}>
-                                            <p>31</p>
-                                            <div>
-                                                <img src="/comment.png" alt="comment icon" />
-                                            </div>
-                                        </div>
-                                        <div className={styles.button} onClick={copyCurrentUrlToClipBord}>
-                                            <p>
-                                                Share
-                                            </p>
-                                            <div>
-                                                <img src="/share.png" alt="share icon" />
-                                            </div>
+                        // if logged in
+                        user ?
+                            (
+                                <div className={styles.reactions}>
+                                    <div className={styles.button} onClick={() => setLiked(!liked)}>
+                                        <p>1</p>
+                                        <div>
+                                            <img src={liked ? "/liked.png" : "/unliked.png"} alt="like icon" />
                                         </div>
                                     </div>
-                                ) : (
-                                    <div className={styles.reactions}>
-                                        <div className={styles.button}>
-                                            <p>1</p>
-                                            <div>
-                                                <img src="/unliked.png" alt="like icon" />
-                                            </div>
-                                        </div>
-                                        <div className={styles.button} onClick={() => setIsCommentsOpen(true)}>
-                                            <p>31</p>
-                                            <div>
-                                                <img src="/comment.png" alt="comment icon" />
-                                            </div>
-                                        </div>
-                                        <div className={styles.button} onClick={copyCurrentUrlToClipBord}>
-                                            <p>
-                                                Share
-                                            </p>
-                                            <div>
-                                                <img src="/share.png" alt="share logo" />
-                                            </div>
+                                    <div className={styles.button} onClick={() => setIsCommentsOpen(true)}>
+                                        <p>31</p>
+                                        <div>
+                                            <img src="/comment.png" alt="comment icon" />
                                         </div>
                                     </div>
-                                )
-                        }
-                    </div>
-                }
+                                    <div className={styles.button} onClick={copyCurrentUrlToClipBord}>
+                                        <p>
+                                            Share
+                                        </p>
+                                        <div>
+                                            <img src="/share.png" alt="share icon" />
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className={styles.reactions}>
+                                    <div className={styles.button} onClick={() => notify("You need to sign in to like an article!")}>
+                                        <p>1</p>
+                                        <div>
+                                            <img src="/unliked.png" alt="like icon" />
+                                        </div>
+                                    </div>
+                                    <div className={styles.button} onClick={() => setIsCommentsOpen(true)}>
+                                        <p>31</p>
+                                        <div>
+                                            <img src="/comment.png" alt="comment icon" />
+                                        </div>
+                                    </div>
+                                    <div className={styles.button} onClick={copyCurrentUrlToClipBord}>
+                                        <p>
+                                            Share
+                                        </p>
+                                        <div>
+                                            <img src="/share.png" alt="share logo" />
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                    }
+                </div>
+            }
+            <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                limit={1}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
         </div>
     )
 }

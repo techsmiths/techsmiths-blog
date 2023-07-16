@@ -120,12 +120,17 @@
   -ms-overflow-style: none;
 }
 
-.reactions {
+.reactionBar {
   width: 60%;
+  margin: auto;
+}
+.progressBar {
+  background-color: #4754cc;
+}
+.reactions {
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  margin: auto;
-  margin-top: 10px;
 }
 
 .reactions > .button {
@@ -181,7 +186,7 @@
 
   }
 
-  .reactions {
+  .reactionBar {
     width: 100%;
     
   }
