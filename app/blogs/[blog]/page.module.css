@@ -101,6 +101,7 @@
   display: block;
   margin-top: 20px;
   margin-bottom: 10px;
+  line-height: 1.5;
 }
 
 .comments {
@@ -120,24 +121,40 @@
 }
 
 .reactions {
-  width: 100%;
-  background-color: red;
+  width: 60%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  margin: auto;
+  margin-top: 10px;
 }
 
 .reactions > .button {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: max-content;
+  border: 1px solid #ffffff40;
+  gap: 20px;
+  cursor: pointer;
+  padding: 20px;
 }
 
-.reactions > .button > img {
-  width: 20px;
-  height: 20px;
+.reactions > .button:hover {
+  background-color: #2a2c3b;
 }
 
+.reactions > .button > p {
+  width: max-content;
+}
+.reactions > .button > div {
+  width: 30px;
+  height: 30px;
+}
+
+.reactions > .button > div > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 
 /* for mobile view */
 
@@ -162,6 +179,11 @@
     height: calc(100% - 140px);
     padding: 10px;
 
+  }
+
+  .reactions {
+    width: 100%;
+    
   }
 
 }

@@ -11,6 +11,11 @@ import useFirebase from '@/hooks/useFirebase';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { a11yDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
+type BlogT = {
+    title: string,
+    image: string,
+    content: any
+}
 
 const customPortableTextComponents = {
     types: {
@@ -18,7 +23,6 @@ const customPortableTextComponents = {
             const imageProps: any = useNextSanityImage(createClient(clientConfig), value.asset);
             return (<img src={imageProps.src} alt={value.alt} />);
         },
-
         code: ({ value }: any) => {
             return (
                 <SyntaxHighlighter language={value.language && value.language.toLowerCase()} style={a11yDark}>
@@ -31,25 +35,17 @@ const customPortableTextComponents = {
 };
 
 
-type BlogT = {
-    title: string,
-    image: string,
-    content: any
-}
-
-
 
 function Blog({ blog }: { blog: BlogT }) {
 
     const router = useRouter();
     const { user } = useFirebase();
-
     const [liked, setLiked] = useState(false);
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 
 
     function copyCurrentUrlToClipBord() {
-
+        navigator.clipboard.writeText(window.location.href);
     }
 
     if (isCommentsOpen) {
@@ -72,6 +68,8 @@ function Blog({ blog }: { blog: BlogT }) {
         )
     }
 
+
+
     return (
         <div className={styles.blogPage}>
             <div className={styles.header}>
@@ -88,48 +86,63 @@ function Blog({ blog }: { blog: BlogT }) {
                         components={customPortableTextComponents}
                     />
                 </div>
+            </div>
                 {
                     <div className={styles.reactionBar}>
-                        {!user && <p>Sign in to like, comment and share</p>}
                         {
 
                             // if logged in
                             user ?
                                 (
                                     <div className={styles.reactions}>
-                                        <button className={styles.button}>
+                                        <div className={styles.button} onClick={() => setLiked(!liked)}>
                                             <p>1</p>
-                                            <img src="/logo.png" alt="Techsmiths logo" />
-                                        </button>
-                                        <button className={styles.button} onClick={() => setIsCommentsOpen(true)}>
+                                            <div>
+                                                <img src={liked ? "/liked.png" : "/unliked.png"} alt="like icon" />
+                                            </div>
+                                        </div>
+                                        <div className={styles.button} onClick={() => setIsCommentsOpen(true)}>
                                             <p>31</p>
-                                            <img src="/logo.png" alt="Techsmiths logo" />
-                                        </button>
-                                        <button className={styles.button}>
-                                            Share
-                                            <img src="/logo.png" alt="Techsmiths logo" />
-                                        </button>
+                                            <div>
+                                                <img src="/comment.png" alt="comment icon" />
+                                            </div>
+                                        </div>
+                                        <div className={styles.button} onClick={copyCurrentUrlToClipBord}>
+                                            <p>
+                                                Share
+                                            </p>
+                                            <div>
+                                                <img src="/share.png" alt="share icon" />
+                                            </div>
+                                        </div>
                                     </div>
                                 ) : (
                                     <div className={styles.reactions}>
-                                        <button className={styles.button}>
+                                        <div className={styles.button}>
                                             <p>1</p>
-                                            <img src="/logo.png" alt="Techsmiths logo" />
-                                        </button>
-                                        <button className={styles.button} onClick={() => setIsCommentsOpen(true)}>
+                                            <div>
+                                                <img src="/unliked.png" alt="like icon" />
+                                            </div>
+                                        </div>
+                                        <div className={styles.button} onClick={() => setIsCommentsOpen(true)}>
                                             <p>31</p>
-                                            <img src="/logo.png" alt="Techsmiths logo" />
-                                        </button>
-                                        <button className={styles.button}>
-                                            Share
-                                            <img src="/logo.png" alt="Techsmiths logo" />
-                                        </button>
+                                            <div>
+                                                <img src="/comment.png" alt="comment icon" />
+                                            </div>
+                                        </div>
+                                        <div className={styles.button} onClick={copyCurrentUrlToClipBord}>
+                                            <p>
+                                                Share
+                                            </p>
+                                            <div>
+                                                <img src="/share.png" alt="share logo" />
+                                            </div>
+                                        </div>
                                     </div>
                                 )
                         }
                     </div>
                 }
-            </div>
         </div>
     )
 }
