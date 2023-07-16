@@ -170,11 +170,18 @@
     flex-wrap: wrap;
   }
 
+
+
   .header {
     flex-direction: column-reverse;
     align-items: flex-start;
     gap: 10px;
     margin-top: 10px;
+  }
+
+  .logo {
+    width: 30px;
+    height: 30px;
   }
 
   .comments {
@@ -188,7 +195,17 @@
 
   .reactionBar {
     width: 100%;
+    margin-top: 20px;
     
+  }
+
+  .reactions > .button {
+    padding: 10px;
+  }
+
+  .reactions > .button > div {
+    width: 20px;
+    height: 20px;
   }
 
 }
