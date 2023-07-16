@@ -3,11 +3,14 @@ import { clientConfig, getBlogBySlug } from "@/sanity/utils/fetch-functions";
 import styles from './page.module.css'
 import Blog from '../../../components/Blog'
 
+export const revalidate = 60;
+
 type Props = {
     params: {
         blog: string
     }
 }
+
 
 
 
