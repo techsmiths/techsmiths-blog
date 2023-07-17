@@ -17,7 +17,8 @@ type BlogT = {
     title: string,
     image: string,
     slug: string,
-    content: any
+    content: any,
+    _createdAt: string,
 }
 
 const customPortableTextComponents = {
@@ -42,14 +43,10 @@ const customPortableTextComponents = {
 function Blog({ blog }: { blog: BlogT }) {
 
     const router = useRouter();
-    const { user } = useFirebase();
-    const [liked, setLiked] = useState(false);
+    const { user, comments, likesCount, addCommentToDatabase, toggleLikeOfPost, isLikedByUser: liked } = useFirebase(blog.slug);
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
     const [scrollPercentage, setScrollPercentage] = useState(0);
     const divRef = useRef(null);
-
-
-
 
     const handleScroll = () => {
         if (!divRef.current) return;
@@ -78,9 +75,53 @@ function Blog({ blog }: { blog: BlogT }) {
                 </div>
                 <div className={styles.blog}>
                     <div className={styles.comments}>
-                        <button className={styles.button} onClick={() => { setIsCommentsOpen(false) }}>
-                            Close
-                        </button>
+                        <div className={styles.commentsClose}>
+                            <button className={styles.button} onClick={() => { setIsCommentsOpen(false) }}>
+                                Close
+                            </button>
+                        </div>
+
+
+                        <div className={styles.commentsContainer}>
+                            {
+                                comments?.map((comment: any) => {
+                                    return (
+                                        <div className={styles.comment} key={comment.id}>
+                                            <div className={styles.commentHeader}>
+                                                <div className={styles.userOfComment}>
+                                                    <img
+                                                        src={comment.user.photoURL}
+                                                        referrerPolicy="no-referrer"
+                                                        alt="user profile"
+                                                    />
+                                                    <p>{comment.user.displayName}</p>
+                                                </div>
+                                                <div>
+                                                    <p className={styles.date}>
+                                                        {
+                                                            // from milliseconds to date
+                                                            new Date(comment.createdAt.seconds * 1000).toLocaleDateString()
+
+                                                        }
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <p>{comment.content}</p>
+                                        </div>
+                                    )
+                                }
+                                )
+                            }
+                        </div>
+
+                        <div className={styles.commentInput}>
+                            <input type="text" placeholder="Write a comment..." onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    addCommentToDatabase(e.currentTarget.value);
+                                    e.currentTarget.value = "";
+                                }
+                            }} />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,6 +141,9 @@ function Blog({ blog }: { blog: BlogT }) {
             <div className={styles.blog} ref={divRef} onScroll={handleScroll}>
                 <h1 className={styles.title}>{blog.title} </h1>
                 <img src={blog.image} alt={blog.title} />
+                <p style={{ color: "gray" }}>
+                    published on : {new Date(blog._createdAt).toLocaleDateString()}
+                </p>
                 <div>
                     <PortableText value={blog.content}
                         components={customPortableTextComponents}
@@ -115,14 +159,16 @@ function Blog({ blog }: { blog: BlogT }) {
                         user ?
                             (
                                 <div className={styles.reactions}>
-                                    <div className={styles.button} onClick={() => setLiked(!liked)}>
-                                        <p>1</p>
+                                    <div className={styles.button} onClick={toggleLikeOfPost}>
+                                        <p>{likesCount}</p>
                                         <div>
                                             <img src={liked ? "/liked.png" : "/unliked.png"} alt="like icon" />
                                         </div>
                                     </div>
                                     <div className={styles.button} onClick={() => setIsCommentsOpen(true)}>
-                                        <p>31</p>
+                                        <p>
+                                            {comments?.length}
+                                        </p>
                                         <div>
                                             <img src="/comment.png" alt="comment icon" />
                                         </div>
@@ -139,13 +185,15 @@ function Blog({ blog }: { blog: BlogT }) {
                             ) : (
                                 <div className={styles.reactions}>
                                     <div className={styles.button} onClick={() => notify("You need to sign in to like an article!")}>
-                                        <p>1</p>
+                                        <p>{likesCount}</p>
                                         <div>
                                             <img src="/unliked.png" alt="like icon" />
                                         </div>
                                     </div>
                                     <div className={styles.button} onClick={() => setIsCommentsOpen(true)}>
-                                        <p>31</p>
+                                        <p>
+                                            {comments?.length}
+                                        </p>
                                         <div>
                                             <img src="/comment.png" alt="comment icon" />
                                         </div>

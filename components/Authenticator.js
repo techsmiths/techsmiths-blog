@@ -17,10 +17,12 @@ function Authenticator() {
         return user.email
     }
 
+
     return (
         <div className={styles.auth}>
             {user ? (
                 <div className={styles.user}>
+
                     <img src={user.photoURL} alt={user.displayName} className={styles.userImage} />
                     <p className={styles.userName}>{getScreenName()}</p>
                     <button className={styles.logoutButton} onClick={signOut}>

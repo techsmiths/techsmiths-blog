@@ -49,6 +49,7 @@
 .blog {
   width: 60%;
   margin: auto;
+  margin-bottom: 10px;
   padding: 30px;
   flex: 1;
   overflow-y: scroll;
@@ -112,13 +113,37 @@
   top: 100px;
   height: calc(100% - 100px);
   padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+.commentsClose {
+  background-color: rebeccapurple;
+  width: 60%;
+}
+
+.commentsContainer {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: royalblue;
   flex: 1;
   overflow-y: scroll;
-  background-color: black;
-
   /* remove scroll bar */
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+.commentsContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.commentInput
+{
+  background-color: rebeccapurple;
+  width: 60%;
 }
 
 .reactionBar {
@@ -185,13 +210,21 @@
     height: 30px;
   }
 
-  .comments {
-    position: fixed;
-    left: 0;
-    top: 140px;
-    height: calc(100% - 140px);
+  .comments  {
     padding: 10px;
+  }
 
+
+  .commentsClose {
+    width: 100%;
+  }
+
+  .commentsContainer {
+    width: 100%;
+  }
+
+  .commentInput {
+    width: 100%;
   }
 
   .reactionBar {
@@ -208,5 +241,6 @@
     width: 20px;
     height: 20px;
   }
+
 
 }
