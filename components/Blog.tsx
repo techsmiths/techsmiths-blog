@@ -97,6 +97,16 @@ function Blog({ blog }: { blog: BlogT }) {
 
                         <div className={styles.commentsContainer} ref={commentsDivRef} onScroll={handleCommentsScroll}>
                             {
+                                comments.length == 0 && (
+                                    <div className={styles.noComments}>
+                                        <h3>No comments yet!</h3>
+                                        <p>Be the first to comment!</p>
+                                    </div>
+                                )
+                            }
+                            {
+
+
                                 comments?.map((comment: any) => {
                                     return (
                                         <div className={styles.comment} key={comment.id}>
