@@ -1,8 +1,9 @@
-
-import { clientConfig, getBlogBySlug } from "@/sanity/utils/fetch-functions";
+"use client"
+import { getBlogBySlug } from "@/sanity/utils/fetch-functions";
 import styles from './page.module.css'
 import Blog from '../../../components/Blog'
-
+import { useEffect, useState } from "react";
+import Loading from "@/components/loading";
 export const revalidate = 60;
 
 type Props = {
@@ -12,13 +13,30 @@ type Props = {
 }
 
 
-
-
-export default async function BlogPage({ params }: Props) {
+export default function BlogPage({ params }: Props) {
 
     let slug = params.blog;
-    let blog = await getBlogBySlug(slug);
+    const [blog, setBlog] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
 
+    const fetchBlog = async () => {
+        setLoading(true);
+        let fetchedBlog = await getBlogBySlug(slug);
+        setBlog(fetchedBlog);
+        setLoading(false);
+    }
+
+    useEffect(() => {
+        if(!slug || slug == "") return;
+        fetchBlog();
+    }, [slug])
+
+    
+    if (loading) {
+        return (
+            <Loading />
+        )
+    }
 
     if (!blog) {
         return (

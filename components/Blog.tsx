@@ -46,14 +46,25 @@ function Blog({ blog }: { blog: BlogT }) {
     const { user, comments, likesCount, addCommentToDatabase, toggleLikeOfPost, isLikedByUser: liked } = useFirebase(blog.slug);
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
     const [scrollPercentage, setScrollPercentage] = useState(0);
-    const divRef = useRef(null);
+    const [commentsScrollPercentage, setCommentsScrollPercentage] = useState(0);
+    const blogContentDivRef = useRef(null);
+    const commentsDivRef = useRef(null);
+    const [comment, setComment] = useState("");
 
-    const handleScroll = () => {
-        if (!divRef.current) return;
-        const { scrollTop, scrollHeight, clientHeight } = divRef.current;
+    const handleBlogScroll = () => {
+        if (!blogContentDivRef.current) return;
+        const { scrollTop, scrollHeight, clientHeight } = blogContentDivRef.current;
         const scrollableHeight = scrollHeight - clientHeight;
         const percentage = (scrollTop / scrollableHeight) * 100;
         setScrollPercentage(percentage);
+    };
+
+    const handleCommentsScroll = () => {
+        if (!commentsDivRef.current) return;
+        const { scrollTop, scrollHeight, clientHeight } = commentsDivRef.current;
+        const scrollableHeight = scrollHeight - clientHeight;
+        const percentage = (scrollTop / scrollableHeight) * 100;
+        setCommentsScrollPercentage(percentage);
     };
 
     function notify(message: string) {
@@ -73,27 +84,31 @@ function Blog({ blog }: { blog: BlogT }) {
                     </div>
                     <Authenticator />
                 </div>
+                <div className={styles.progressBar} style={{ width: `${commentsScrollPercentage}%`, height: "2px" }}></div>
                 <div className={styles.blog}>
                     <div className={styles.comments}>
                         <div className={styles.commentsClose}>
-                            <button className={styles.button} onClick={() => { setIsCommentsOpen(false) }}>
-                                Close
-                            </button>
+                            <div className={styles.button} onClick={() => setIsCommentsOpen(false)}>
+                                <img src="/cancel.png" alt="close icon" />
+                            </div>
                         </div>
 
 
-                        <div className={styles.commentsContainer}>
+
+                        <div className={styles.commentsContainer} ref={commentsDivRef} onScroll={handleCommentsScroll}>
                             {
                                 comments?.map((comment: any) => {
                                     return (
                                         <div className={styles.comment} key={comment.id}>
                                             <div className={styles.commentHeader}>
                                                 <div className={styles.userOfComment}>
-                                                    <img
-                                                        src={comment.user.photoURL}
-                                                        referrerPolicy="no-referrer"
-                                                        alt="user profile"
-                                                    />
+                                                    <div className={styles.userImageOfComment}>
+                                                        <img
+                                                            src={comment.user.photoURL}
+                                                            referrerPolicy="no-referrer"
+                                                            alt="user profile"
+                                                        />
+                                                    </div>
                                                     <p>{comment.user.displayName}</p>
                                                 </div>
                                                 <div>
@@ -113,15 +128,29 @@ function Blog({ blog }: { blog: BlogT }) {
                                 )
                             }
                         </div>
+                        {
 
-                        <div className={styles.commentInput}>
-                            <input type="text" placeholder="Write a comment..." onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    addCommentToDatabase(e.currentTarget.value);
-                                    e.currentTarget.value = "";
-                                }
-                            }} />
-                        </div>
+                            user &&
+                            <div className={styles.commentInput}>
+                                <input type="text" placeholder="Write a comment..."
+                                    value={comment} onChange={(e) => setComment(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            if (comment.trim() == "") return;
+                                            addCommentToDatabase(comment, null);
+                                            setComment("");
+                                        }
+                                    }}
+                                />
+                                <div className={styles.button} onClick={() => {
+                                    addCommentToDatabase(comment, null);
+                                    setComment("");
+                                }}>
+                                    <img src="/send.png" alt="close icon" />
+                                </div>
+                            </div>
+                        }
+
                     </div>
                 </div>
             </div>
@@ -138,7 +167,7 @@ function Blog({ blog }: { blog: BlogT }) {
                 </div>
                 <Authenticator />
             </div>
-            <div className={styles.blog} ref={divRef} onScroll={handleScroll}>
+            <div className={styles.blog} ref={blogContentDivRef} onScroll={handleBlogScroll}>
                 <h1 className={styles.title}>{blog.title} </h1>
                 <img src={blog.image} alt={blog.title} />
                 <p style={{ color: "gray" }}>

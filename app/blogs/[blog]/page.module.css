@@ -99,12 +99,58 @@
   margin-left: 30px;
 }
 
-.blog p {
+.blog>div>p {
   display: block;
   margin-top: 20px;
   margin-bottom: 10px;
   line-height: 1.5;
 }
+
+.reactionBar {
+  width: 60%;
+  margin: auto;
+}
+
+.progressBar {
+  background-color: #4754cc;
+}
+
+.reactions {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.reactions>.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ffffff40;
+  gap: 20px;
+  cursor: pointer;
+  padding: 20px;
+}
+
+.reactions>.button:hover {
+  background-color: #2a2c3b;
+}
+
+.reactions>.button>p {
+  width: max-content;
+}
+
+.reactions>.button>div {
+  width: 30px;
+  height: 30px;
+}
+
+.reactions>.button>div>img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
 
 .comments {
   width: 100%;
@@ -121,77 +167,116 @@
 
 
 .commentsClose {
-  background-color: rebeccapurple;
+  display: flex;
   width: 60%;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.commentsClose>.button {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.commentsClose>.button>img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .commentsContainer {
   width: 60%;
   margin-left: auto;
   margin-right: auto;
-  background-color: royalblue;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
   overflow-y: scroll;
   /* remove scroll bar */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
 .commentsContainer::-webkit-scrollbar {
   display: none;
 }
 
-.commentInput
-{
-  background-color: rebeccapurple;
+.commentInput {
   width: 60%;
-}
-
-.reactionBar {
-  width: 60%;
-  margin: auto;
-}
-.progressBar {
-  background-color: #4754cc;
-}
-.reactions {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
-.reactions > .button {
   display: flex;
-  justify-content: center;
   align-items: center;
-  border: 1px solid #ffffff40;
-  gap: 20px;
-  cursor: pointer;
+  gap: 10px;
   padding: 20px;
+  margin-top: 20px;
 }
-
-.reactions > .button:hover {
+.commentInput > input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
   background-color: #2a2c3b;
+  color: white;
+}
+.commentInput>.button {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
 
-.reactions > .button > p {
-  width: max-content;
-}
-.reactions > .button > div {
-  width: 30px;
-  height: 30px;
-}
-
-.reactions > .button > div > img {
+.commentInput>.button>img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
+.comment {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #2a2c3b;
+  border-radius: 20px;
+}
+
+.commentHeader {
+  display: flex;
+  flex-direction: column;
+}
+
+.userOfComment {
+  display: flex;
+  align-items: center;
+}
+
+.userImageOfComment {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.userImageOfComment>img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.date {
+  line-height: 1;
+  color: #ffffff80;
+  margin: 10px;
+  margin-left: 0px;
+}
+
 /* for mobile view */
 
 @media (max-width: 768px) {
-  .blog { 
-    width: 98%;
+  .blog {
+    width: 100%;
     padding: 20px;
     flex-wrap: wrap;
   }
@@ -210,8 +295,8 @@
     height: 30px;
   }
 
-  .comments  {
-    padding: 10px;
+  .comments {
+    padding: 0px;
   }
 
 
@@ -230,17 +315,24 @@
   .reactionBar {
     width: 100%;
     margin-top: 20px;
-    
+
   }
 
-  .reactions > .button {
+  .reactions>.button {
     padding: 10px;
   }
 
-  .reactions > .button > div {
+  .reactions>.button:hover {
+    background-color: transparent;
+  }
+
+  .reactions>.button>div {
     width: 20px;
     height: 20px;
   }
+
+
+
 
 
 }

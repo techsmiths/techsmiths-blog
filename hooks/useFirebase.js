@@ -35,20 +35,14 @@ const useFirebase = (slug) => {
     // side effects for comments
 
     useEffect(() => {
-
-        if (!user) return;
         if (!slug || slug === "") return;
 
         // use the reference to the collection of comments to listen to changes in the database
         const reference = collection(database, "comments");
         const unsubscribe = onSnapshot(reference, {
             next: (snapshot) => {
-
-
-
                 const fetchedComments = [];
                 // only keep the comments for the current post
-                console.log(fetchedComments);
                 snapshot.forEach((doc) => {
                     if (doc.data().slug === slug) {
                         fetchedComments.push({ ...doc.data(), id: doc.id });
@@ -66,7 +60,7 @@ const useFirebase = (slug) => {
 
         return () => unsubscribe();
 
-    }, [user, slug]);
+    }, [slug]);
 
 
     // side effects for likes
